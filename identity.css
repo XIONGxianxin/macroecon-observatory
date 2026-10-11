@@ -1,0 +1,119 @@
+/* Shared typesetting discipline; each direction has a distinct grid and masthead. */
+body{font-kerning:normal;font-optical-sizing:auto}
+.site-header{padding:24px 32px 22px;align-items:center}
+.brand{display:flex;gap:12px;align-items:baseline;line-height:1;color:var(--ink);letter-spacing:0}
+.brand-primary{font-family:var(--display);font-size:52px;font-weight:400;letter-spacing:-.035em}
+.brand-secondary{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:400}
+nav a{font-size:14px;letter-spacing:.01em;padding:9px 0}
+main{padding:34px 32px 60px}
+.heading{margin-bottom:22px}
+h1{font-family:var(--display);font-weight:400;font-size:42px;line-height:1.15;letter-spacing:-.02em}
+.intro{font-size:14px;line-height:1.6;margin-top:9px;max-width:58ch}
+.eyebrow,.filter-state,.results-bar,.date-heading{font-family:var(--mono);font-size:11px;line-height:1.65;font-weight:400}
+.results-bar{padding:17px 0 13px}.results-bar span{font-size:10px}
+.filter-state{font-size:11px}.compact-filters{border-color:var(--line)}
+.tool-panel{background:var(--paper);box-shadow:0 8px 24px #202a3212;border-color:var(--line)}
+input,select,.search-content input,.filter-row input,.filter-row select,.date-entry input{background:var(--paper)}
+.tool-icon{color:var(--accent)}
+.apply{background:var(--accent);border-color:var(--accent)}.apply:hover{background:var(--ink)}
+.tag{font-size:11px;background:transparent;border-color:var(--line);border-radius:2px;padding:3px 7px;line-height:1.6}
+.filter-tag{font-family:var(--font);font-size:12px;padding:4px 8px}
+.filter-tag[aria-pressed=true]{background:var(--accent)}
+.grouped-record h4,.record h2{font-family:var(--reading);font-size:23px;line-height:1.35;letter-spacing:-.015em;font-weight:600;max-width:65ch}
+.speaker{font-size:14px;line-height:1.6;margin:8px 0 11px}
+.record-links{font-size:12px;gap:19px;margin-top:11px}
+.record-details,.paper-abstract summary{font-size:12px}
+.paper-abstract{max-width:66ch;margin:10px 0 12px}
+.paper-abstract p{font-family:var(--reading);font-size:18px;line-height:1.65;max-width:66ch;margin-bottom:14px}
+.abstract-source{font-family:var(--font);font-size:11px}
+.candidate-fields{font-size:12px;line-height:1.65}
+.candidate-name{font-family:var(--font);font-size:17px;font-weight:500;margin-bottom:8px}
+.candidate-detail{max-width:800px}
+.candidate-detail h2{font-family:var(--reading);font-size:34px;font-weight:600;line-height:1.28;max-width:45ch;letter-spacing:-.025em}
+.candidate-detail .paper-abstract{max-width:66ch;margin:24px 0 0}
+.candidate-detail .paper-abstract p{font-size:19px;line-height:1.68}
+.candidate-detail .record-links{margin:15px 0}
+.back-link{font-size:12px;margin-bottom:26px}
+.paper-block{margin:24px 0;padding:25px 0;border-color:var(--line)}
+footer{padding:24px 32px;font-size:11px;line-height:1.7}
+.pending-title{font-family:var(--font);font-size:13px;font-weight:400}
+.coverage,.coverage table{font-size:12px}.coverage-content p{font-size:12px}
+.date-group,.date-heading{border-color:var(--line)}
+.date-popover,.calendar-heading button,.calendar-days button{background:var(--paper)}
+.calendar-days button[aria-current=date]{background:var(--accent)}
+/* B: a magazine masthead and editorial columns, with every program kept intact. */
+[data-direction=b] .site-header{display:grid;justify-content:center;gap:16px;padding-top:25px;padding-bottom:22px;border-bottom:3px double var(--ink)}
+[data-direction=b] .brand{flex-direction:column;align-items:center;gap:5px}
+[data-direction=b] .brand-primary{font-size:62px;letter-spacing:-.055em}
+[data-direction=b] .brand-secondary{font-family:var(--font);font-size:10px;letter-spacing:.22em}
+[data-direction=b] nav{justify-content:center}
+[data-direction=b] .heading{justify-content:center;text-align:center;margin:3px 0 27px}
+[data-direction=b] h1{font-size:54px;letter-spacing:-.04em}
+[data-direction=b] .intro{margin:8px auto 0}
+[data-direction=b] .date-group>summary>h2{font-family:var(--display);font-size:24px;font-weight:500}
+[data-direction=b] .program-group{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px;padding:4px 0 18px}
+[data-direction=b] .program-group>h3{grid-column:1/-1;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.04em;text-transform:uppercase;color:var(--detail);padding:13px 0 9px}
+[data-direction=b] .record.grouped-record{grid-column:auto;padding:12px 0 22px;align-self:start}
+[data-direction=b] .record.grouped-record:only-of-type{grid-column:1/-1}
+[data-direction=b] .grouped-record h4{font-size:28px;font-weight:500;max-width:43ch}
+[data-direction=b] .paper-abstract p{font-size:19px}
+[data-direction=b] .tag:not(.filter-tag){border:0;border-bottom:1px solid var(--line);border-radius:0;padding:2px 0;margin-right:8px}
+[data-direction=b] .candidate-detail{margin-inline:auto}
+[data-direction=b] .candidate-detail h2{font-size:40px;font-weight:500}
+[data-direction=b] .candidate-detail .paper-abstract p{font-size:20px}
+[data-direction=b] .paper-block .eyebrow{color:var(--detail)}
+/* C: chronology and season form a catalogue rail, distinct from A's program rail. */
+[data-direction=c] .date-group[open]{display:grid;grid-template-columns:132px minmax(0,1fr);gap:0 28px;padding-top:4px;margin-bottom:29px}
+[data-direction=c] .date-group>summary{align-self:start;align-items:start;padding:15px 0;gap:6px}
+[data-direction=c] .date-group[open]>summary{grid-column:1;grid-row:1 / span 100}
+[data-direction=c] .date-group>summary>h2{font-family:var(--mono);font-size:12px;font-weight:400;display:block;line-height:1.7}
+[data-direction=c] .date-group>summary .meta{display:block;margin:7px 0 0;color:var(--muted);font-size:10px}
+[data-direction=c] .date-group>summary::before{font-size:10px;margin-top:3px;color:var(--detail)}
+[data-direction=c] .date-group>.program-group{grid-column:2;grid-template-columns:minmax(0,1fr);padding:0 0 9px}
+[data-direction=c] .program-group>h3{grid-column:1;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.045em;text-transform:uppercase;color:var(--accent);padding:15px 0 9px}
+[data-direction=c] .record.grouped-record{grid-column:1;padding:5px 0 21px}
+[data-direction=c] .program-group+.program-group{margin-top:0;border-color:var(--line)}
+[data-direction=c] .season-group{display:grid;grid-template-columns:132px minmax(0,1fr);gap:0 28px;border-top:1px solid var(--line)}
+[data-direction=c] .season-group>.date-heading{grid-column:1;grid-row:1/span 100;border:0;padding:17px 0;font-size:12px}
+[data-direction=c] .season-group>.program-group{grid-column:2;grid-template-columns:minmax(0,1fr);padding-bottom:12px}
+[data-direction=c] .candidate-detail{margin-left:160px}
+[data-direction=c] .candidate-detail h2{font-size:34px;max-width:42ch}
+[data-direction=c] .paper-block{border-top:1px solid var(--detail)}
+/* All directions remain actual usable pages at narrow widths. */
+@media(max-width:800px){
+ main{padding:26px 24px 44px}.site-header{padding-inline:24px}
+ [data-direction=c] .candidate-detail{margin-left:0}
+ [data-direction=c] .date-group[open],[data-direction=c] .season-group{grid-template-columns:110px minmax(0,1fr);gap:0 18px}
+ [data-direction=b] .program-group{gap:0 23px}
+}
+@media(max-width:600px){
+ .site-header{padding:20px 18px 17px;gap:18px;flex-wrap:wrap}
+ .brand-primary{font-size:42px}.brand-secondary{font-size:9px;letter-spacing:.1em}
+ nav{gap:22px}nav a{font-size:13px}
+ main{padding:24px 18px 40px}.heading{margin-bottom:19px}h1{font-size:35px}
+ .intro{font-size:13px;max-width:35ch}.filter-state{font-size:10px}
+ .results-bar{font-size:10px;padding:14px 0 11px}.results-bar span{font-size:9px}
+ .grouped-record h4{font-size:22px;line-height:1.35}
+ .speaker{font-size:13px;line-height:1.65}.record-links{font-size:12px;gap:17px}
+ .paper-abstract p{font-size:18px;line-height:1.65}
+ [data-direction=b] .site-header{padding-top:20px;gap:13px}
+ [data-direction=b] .brand-primary{font-size:49px}
+ [data-direction=b] h1{font-size:42px}
+ [data-direction=b] .program-group{display:block}
+ [data-direction=b] .grouped-record h4{font-size:26px}
+ [data-direction=c] .date-group[open],[data-direction=c] .season-group{display:block}
+ [data-direction=c] .date-group>summary{padding:12px 0 8px;align-items:center}
+ [data-direction=c] .date-group>summary>h2{display:flex;align-items:center;width:100%;font-size:12px}
+ [data-direction=c] .date-group>summary .meta{display:inline;margin:0 0 0 auto;font-size:10px}
+ [data-direction=c] .date-group>.program-group,[data-direction=c] .season-group>.program-group{display:block}
+ [data-direction=c] .program-group>h3{padding:12px 0 7px;font-size:10px}
+ .candidate-detail h2,[data-direction=c] .candidate-detail h2{font-size:29px;line-height:1.3}
+ [data-direction=b] .candidate-detail h2{font-size:34px}
+ .candidate-detail .paper-abstract p{font-size:18px;line-height:1.68}
+ .tag{font-size:11px}.filter-tag{font-size:12px}.filter-row label{font-size:12px}
+ footer{padding:21px 18px;font-size:11px}
+}
+@media(max-width:360px){
+ .brand{gap:8px}.brand-primary{font-size:38px}.brand-secondary{font-size:8px}
+}
+@media(max-width:600px){.tool-panel .date-popover{max-width:min(280px,calc(100vw - 76px))}}

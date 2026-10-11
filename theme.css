@@ -1,0 +1,16 @@
+/* The selected production direction is B. C tokens remain the base fallback. Preview variants share the same data. */
+:root{
+ --ink:#202A32;--muted:#53616A;--accent:#40586A;--line:#C8CDC7;
+ --paper:#F5F3EC;--wash:#EDEFE8;--detail:#A48759;
+ --font:'IBM Plex Sans',system-ui,sans-serif;
+ --reading:'Source Serif 4',Georgia,serif;
+ --display:'Instrument Serif',Georgia,serif;
+ --mono:'IBM Plex Mono',monospace;
+ --radius:2px;--max:1160px
+}
+:root[data-direction=b]{
+ --ink:#252623;--muted:#5E625C;--accent:#334A72;--line:#CDCAC2;
+ --paper:#F7F4EE;--wash:#EEEAE2;--detail:#94513F;
+ --font:'IBM Plex Sans',system-ui,sans-serif;--reading:'Newsreader',Georgia,serif;
+ --display:'Instrument Serif',Georgia,serif;--max:1180px
+}
