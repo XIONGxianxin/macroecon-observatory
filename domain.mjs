@@ -1,11 +1,12 @@
 /** Pure data/query layer. No DOM, hosting provider, or framework dependencies. */
-export const PRIMARY_TOPICS=['Macro','Labor','Firms','Household HA','Firm heterogeneity'];
+import {BROAD_TOPICS,matchesTopic} from './broad-topics.mjs?v=20261013-1';
+export const PRIMARY_TOPICS=BROAD_TOPICS.map(t=>t.label);
 export function normalize(s){return String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
 export function filterRecords(records,state,asOf){
  return records.filter(r=>{
   if(state.program&&r.program!==state.program)return false;
   if(state.q&&!normalize([r.title,r.speaker,r.name,r.program,...(r.tags||[]),...(r.fields||[])].join(' ')).includes(normalize(state.q)))return false;
-  if(state.topics.length&&!state.topics.some(t=>r.tags?.includes(t)||r.fields?.includes(t)))return false;
+  if(state.topics.length&&!state.topics.some(t=>matchesTopic(r,t)))return false;
   if(r.kind==='candidate'&&state.cohort&&r.cohort!==state.cohort)return false;
   if(state.paperOnly&&!r.paper_url)return false;
   if(r.kind==='seminar'){

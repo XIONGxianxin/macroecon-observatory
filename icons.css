@@ -1,0 +1,40 @@
+/* Shared hand-drawn marks, equal-width wordmark, and persistent topic controls. */
+.brand,[data-direction=b] .brand,[data-direction=c] .brand{display:inline-flex;flex-direction:column;align-items:flex-start;gap:5px;flex-shrink:0}
+.brand .brand-primary{white-space:nowrap}
+.brand .brand-secondary,[data-direction=b] .brand-secondary,[data-direction=c] .brand-secondary{display:inline-flex;white-space:nowrap;letter-spacing:0;line-height:1.2}
+.brand-secondary>span{letter-spacing:0}
+.topic-motion-icon,.control-motion-icon{display:inline-block;vertical-align:middle;flex:0 0 auto;overflow:visible;color:inherit;pointer-events:none}
+body{--topic-icon-accent:#AC624C;--ui-icon-accent:#AC624C;--ui-icon-paper:var(--paper)}
+.more-toggle{display:flex;align-items:center;justify-content:center}
+.broad-topic-bar,.broad-topic-options{display:grid;grid-template-columns:repeat(6,minmax(44px,64px));gap:8px;border:0;padding:0;margin:8px 0 2px}
+.broad-topic-options{grid-template-columns:repeat(6,minmax(44px,1fr));margin:0}
+.broad-topic-button{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:54px;min-width:44px;padding:5px 3px;border:0;background:transparent;color:var(--ink);border-radius:2px}
+.topic-focus-frame{position:absolute;z-index:-1;top:0;left:50%;width:42px;height:42px;margin-left:-21px;overflow:visible;pointer-events:none}
+.topic-focus-fill{fill:#AC624C16;stroke:none;opacity:0;transition:opacity 160ms ease}
+.topic-focus-outline{fill:none;stroke:var(--topic-icon-accent);stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100;opacity:0;transition:stroke-dashoffset 220ms ease,opacity 160ms ease}
+.broad-topic-button[aria-pressed=true] .topic-focus-fill{opacity:1}
+.broad-topic-button[aria-pressed=true] .topic-focus-outline{stroke-dashoffset:0;opacity:1;transition:stroke-dashoffset 400ms cubic-bezier(.3,.1,.3,1),opacity 120ms ease}
+.broad-topic-button .topic-motion-icon{stroke-width:1.25;transition:stroke-width 160ms ease}
+.broad-topic-button[aria-pressed=true] .topic-motion-icon{stroke-width:1.5}
+.topic-label{font-family:var(--mono);font-size:10px;line-height:1.2;border-bottom:1px solid transparent;padding-bottom:2px}
+.broad-topic-button[aria-pressed=true] .topic-label{color:var(--ui-icon-accent);border-bottom-color:currentColor}
+.broad-topic-button:hover .topic-label{color:var(--ui-icon-accent)}
+.broad-topic-button:focus-visible{outline:1px solid var(--accent);outline-offset:1px}
+.filter-scope{min-width:0;flex:1}.filter-state{max-width:none}
+.search-status[hidden]{display:none}
+.clear-tool[disabled]{pointer-events:none}
+@media(max-width:600px){.broad-topic-bar{grid-template-columns:repeat(6,minmax(0,1fr));gap:3px}.broad-topic-options{gap:2px}.broad-topic-button{min-width:0}.filter-state{max-width:none}.tool-panel .topic-label{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.topic-focus-fill,.topic-focus-outline,.broad-topic-button .topic-motion-icon,.broad-topic-button[aria-pressed=true] .topic-focus-outline{transition:none}}
+
+/* A permanent zero-width slot lets both toolbar directions slide without a jump. */
+.clear-tool-slot{display:block;flex:0 0 auto;width:0;margin-left:-5px;transition:width 220ms cubic-bezier(.3,.1,.3,1),margin-left 220ms cubic-bezier(.3,.1,.3,1)}
+.clear-tool-slot[data-present=true]{width:34px;margin-left:0}
+.clear-tool-slot .clear-tool{width:34px}
+/* Use the input's own border for focus, without an extra native-looking ring. */
+input:focus,select:focus{outline:none;box-shadow:none;border-color:var(--accent)}
+button:focus:not(:focus-visible),a:focus:not(:focus-visible),summary:focus:not(:focus-visible),[tabindex='-1']:focus{outline:none}
+@media(prefers-reduced-motion:reduce){.clear-tool-slot{transition:none}}
+
+/* Inset dropdown indicators consistently for Program, When and JM season. */
+.compact-filters select{appearance:none;-webkit-appearance:none;padding-right:36px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='m2 4 4 4 4-4' fill='none' stroke='%235F6864' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:12px 12px}
+@media(forced-colors:active){.compact-filters select{appearance:auto;-webkit-appearance:auto;background-image:none}}
