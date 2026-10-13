@@ -1,7 +1,7 @@
-import {createTopicIcon,attachTopicMotion} from './icons/topic-motion.mjs?v=20261013-1';
-import {createControlIcon,attachControlMotion} from './icons/control-icons.mjs?v=20261013-1';
-import {isTopicSelected} from './broad-topics.mjs?v=20261013-1';
-import {mountTopicFocus} from './topic-focus.js?v=20261013-1';
+import {createTopicIcon,attachTopicMotion} from './icons/topic-motion.mjs?v=20261013-4';
+import {createControlIcon,attachControlMotion} from './icons/control-icons.mjs?v=20261013-4';
+import {isTopicSelected} from './broad-topics.mjs?v=20261013-4';
+import {mountTopicFocus} from './topic-focus.js?v=20261013-4';
 const controlRuns=new WeakMap(),topicRuns=new WeakMap();
 export const controlSlot=name=>`<i data-control-slot="${name}" aria-hidden="true"></i>`;
 export function mountIcons(root){

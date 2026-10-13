@@ -1,10 +1,10 @@
 /** Collapsed search/filter tools; one form retains all shareable query values. */
-import {COPY,wording,programName,topicName} from './content.js?v=20261013-1';
-import {PRIMARY_TOPICS} from './domain.mjs?v=20261013-1';
-import {esc} from './format.js?v=20261013-1';
-import {dateControl} from './date-controls.mjs?v=20261013-1';
-import {BROAD_TOPICS,BROAD_SOURCE_LABELS,isTopicSelected} from './broad-topics.mjs?v=20261013-1';
-import {controlSlot,mountIcons,clearIconPresence,syncTopicIcons} from './icon-ui.js?v=20261013-1';
+import {COPY,wording,programName,topicName} from './content.js?v=20261013-4';
+import {PRIMARY_TOPICS} from './domain.mjs?v=20261013-4';
+import {esc} from './format.js?v=20261013-4';
+import {dateControl} from './date-controls.mjs?v=20261013-4';
+import {BROAD_TOPICS,BROAD_SOURCE_LABELS,isTopicSelected} from './broad-topics.mjs?v=20261013-4';
+import {controlSlot,mountIcons,clearIconPresence,syncTopicIcons} from './icon-ui.js?v=20261013-4';
 
 const option=(value,label,selected)=>`<option value="${esc(value)}" ${value===selected?'selected':''}>${esc(label)}</option>`;
 const icon=name=>controlSlot(name==='close'?'clear':name);
@@ -13,10 +13,10 @@ function scopeMarkup(summary,results){return `<span class="scope-context">${esc(
 function clearMarkup(){return `<button class="tool-icon clear-tool" type="button" data-clear-filters title="${esc(COPY.filters.reset)}" aria-label="${esc(COPY.filters.reset)}">${icon('close')}</button>`;}
 export function filterSummary(state,seasons=[],results=null){
  const f=COPY.filters,seminars=state.view==='seminars';
- const period=state.period==='upcoming'?f.upcoming:state.period==='past'?f.past:f.allDates;
+ const period=state.period==='fortnight'?f.fortnight:state.period==='upcoming'?f.upcoming:state.period==='past'?f.past:f.allDates;
  const context=seminars?period:state.cohort.replace('-','–');
  const count=Number(Boolean(state.program))+state.topics.length+Number(state.paperOnly)+Number(Boolean(state.from))+Number(Boolean(state.to))+
-  Number(seminars&&state.period!=='upcoming');
+  Number(seminars&&state.period!=='fortnight');
  const choices=[state.program?programName(state.program):'',...state.topics.map(topicName),state.from||state.to?[state.from||'…',state.to||'…'].join(' – '):'',state.paperOnly?f.paperOnly:''].filter(Boolean);
  return {count,context,label:[context,...choices].filter(Boolean).join(' · '),active:Boolean(state.q)||count>0};
 }
@@ -35,7 +35,7 @@ export function controls(state,records,collection,seasons=[],results=null){
  <details class="control-panel filter-panel" data-ui-key="filter-panel">${trigger('filter',f.filterOptions,summary.count)}
  <div class="tool-panel filter-content" role="group" aria-label="${esc(f.filterOptions)}"><div class="panel-heading"><h2>${esc(f.filterOptions)}</h2>${close()}</div><div class="filter-row">
  <label class="program-field">${esc(f.program)}<select name="program">${option('',f.allPrograms,state.program)}${collection.programs.map(p=>option(p,programName(p),state.program)).join('')}</select></label>
- ${state.view==='seminars'?`<label class="period-field">${esc(f.when)}<select name="period">${option('upcoming',f.upcoming,state.period)}${option('all',wording(f.allTerm,{term:collection.term}),state.period)}${option('past',f.past,state.period)}</select></label>`:''}
+ ${state.view==='seminars'?`<label class="period-field">${esc(f.when)}<select name="period">${option('fortnight',f.fortnight,state.period)}${option('upcoming',f.upcoming,state.period)}${option('all',wording(f.allTerm,{term:collection.term}),state.period)}${option('past',f.past,state.period)}</select></label>`:''}
  ${state.view==='job-market'?`<label class="period-field">${esc(f.season)}<select name="cohort">${seasons.map((season,i)=>option(season,season.replace('-','–')+(i===0?' · '+f.latest:''),state.cohort)).join('')}</select></label>`:''}</div>
  <fieldset class="topic-filters"><legend>${esc(f.topics)} <span class="meta">${esc(f.topicHint)}</span></legend><div class="broad-topic-options" aria-label="Broad research topics">${broadButtons(state)}</div>
  <details class="extra-topic-options" data-ui-key="extra-topics"><summary>${esc(f.moreTopics)}</summary><div class="extra-topics tags">${topics.filter(t=>!BROAD_SOURCE_LABELS.has(t)||state.topics.includes(t)&&!PRIMARY_TOPICS.includes(t)).map(topicButton).join('')}</div></details></fieldset>

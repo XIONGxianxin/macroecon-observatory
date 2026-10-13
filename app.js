@@ -1,20 +1,22 @@
 /** Data loading, route state, focus and reading-position preservation. */
-import {filterRecords,parseRoute,routeHash,sortRecords,availableCohorts,resolvedCohort} from './domain.mjs?v=20261013-1';
-import {esc,candidateDetail,seminarDetail,coverageView,groupedResults,missingLegend} from './views.js?v=20261013-1';
-import {attachDateControls,validateDateForm} from './date-controls.mjs?v=20261013-1';
-import {controls,syncControls} from './controls.js?v=20261013-1';
-import {toggleTopic,selectedBroadTopic} from './broad-topics.mjs?v=20261013-1';
-import {mountIcons,disposeIcons,syncPanelIcons} from './icon-ui.js?v=20261013-1';
-import {fitBrand} from './brand-fit.js?v=20261013-1';
-import {COPY,wording} from './content.js?v=20261013-1';
-import {brandMarkup,DIRECTIONS} from './identity.mjs?v=20261013-1';
-import {menuMarkup,attachSiteMenu} from './site-menu.js?v=20261013-1';
-import {transitionPage,cancelPageTransition,unfoldPanel} from './motion.js?v=20261013-1';
-import {footerMarkup} from './footer.js?v=20261013-1';
-import {attachMissingHints} from './missing-content.js?v=20261013-1';
+import {filterRecords,parseRoute,routeHash,sortRecords,availableCohorts,resolvedCohort} from './domain.mjs?v=20261013-4';
+import {esc,candidateDetail,seminarDetail,coverageView,groupedResults,missingLegend} from './views.js?v=20261013-4';
+import {attachDateControls,validateDateForm} from './date-controls.mjs?v=20261013-4';
+import {controls,syncControls} from './controls.js?v=20261013-4';
+import {toggleTopic,selectedBroadTopic} from './broad-topics.mjs?v=20261013-4';
+import {mountIcons,disposeIcons,syncPanelIcons} from './icon-ui.js?v=20261013-4';
+import {fitBrand} from './brand-fit.js?v=20261013-4';
+import {attachDeferredCards} from './deferred-cards.js?v=20261013-4';
+import {COPY,wording} from './content.js?v=20261013-4';
+import {brandMarkup,DIRECTIONS} from './identity.mjs?v=20261013-4';
+import {menuMarkup,attachSiteMenu} from './site-menu.js?v=20261013-4';
+import {transitionPage,cancelPageTransition,unfoldPanel} from './motion.js?v=20261013-4';
+import {footerMarkup} from './footer.js?v=20261013-4';
+import {attachMissingHints} from './missing-content.js?v=20261013-4';
 
 const main=document.querySelector('main');
 let data,pendingFocus,renderedDay,renderedRoute;
+let disposeDeferredCards=()=>{};
 const snapshots=new Map();
 const localToday=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');};
 const state=(hash=location.hash)=>{
@@ -69,6 +71,7 @@ function shell(){
  main.innerHTML=`<p>${esc(COPY.site.loading)}</p>`;
 }
 function render(preserveTools=false){
+ disposeDeferredCards();
  const s=state(),c=COPY.records,seasons=availableCohorts(data.candidates.candidates);
  const keepTools=preserveTools&&main.querySelector('#filters')&&renderedRoute?.view===s.view&&renderedRoute?.cohort===s.cohort;
  renderedDay=localToday();renderedRoute=s;
@@ -94,6 +97,7 @@ function render(preserveTools=false){
   main.querySelector('#results').innerHTML=resultMarkup;
   main.querySelector('#missing-legend-slot').innerHTML=missingLegend(filtered,document.documentElement.dataset.direction);
   main.querySelector('#coverage-slot').innerHTML=coverageMarkup;
+  disposeDeferredCards=attachDeferredCards(main);
   return;
  }
  disposeIcons(main);
@@ -102,6 +106,7 @@ function render(preserveTools=false){
  <div id="missing-legend-slot">${missingLegend(filtered,document.documentElement.dataset.direction)}</div>
  <section aria-label="${esc(label)} results" id="results" tabindex="-1">${resultMarkup}</section><div id="coverage-slot">${coverageMarkup}</div>`;
  mountIcons(main);
+ disposeDeferredCards=attachDeferredCards(main);
  const form=document.querySelector('#filters');
  form.addEventListener('submit',event=>{event.preventDefault();applyForm();});
  form.querySelectorAll('select,input[type=checkbox]').forEach(e=>e.addEventListener('change',applyForm));
@@ -229,9 +234,9 @@ async function load(){
  render();nextDay();
  try{
   if(navigator.modelContext?.registerTool)navigator.modelContext.registerTool({
-   name:'search_economics_index',description:'Search visible economics records by keyword, program, topic and confirmed job-market season. Seminars default to today and upcoming.',
+   name:'search_economics_index',description:'Search visible economics records by keyword, program, topic and confirmed job-market season. Seminars default to the next 14 calendar days including today.',
    inputSchema:{type:'object',properties:{query:{type:'string'},program:{type:'string'},topic:{type:'string'},cohort:{type:'string'},section:{type:'string',enum:['seminars','job-market']},period:{type:'string',enum:['upcoming','all','past']}}},
-   execute:async({query='',program='',topic='',cohort='',section='seminars',period=section==='seminars'?'upcoming':'all'})=>{
+   execute:async({query='',program='',topic='',cohort='',section='seminars',period=section==='seminars'?'fortnight':'all'})=>{
     if(!['seminars','job-market'].includes(section))throw new Error('Choose seminars or job-market.');
     const s={...parseRoute('#/'+section),q:query,program,topics:topic?[topic]:[],view:section,period,cohort:resolvedCohort(cohort,data.candidates.candidates)};
     const rows=section==='seminars'?data.seminars.events:data.candidates.candidates;

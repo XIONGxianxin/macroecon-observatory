@@ -160,3 +160,6 @@ footer a{color:inherit}
 @media(max-width:600px){
  [data-direction=c] .header-actions{flex-basis:100%;justify-content:flex-end;margin-inline-start:auto}
 }
+
+/* Preserve each fixed card slot while its distant content waits for first reading. */
+.tile-card[data-deferred]{content-visibility:auto;contain-intrinsic-block-size:auto 420px}

@@ -1,9 +1,9 @@
 /** More choices use the same fold motion as the search/filter panels. */
-import {COPY} from './content.js?v=20261013-1';
-import {esc} from './format.js?v=20261013-1';
-import {DIRECTIONS} from './identity.mjs?v=20261013-1';
-import {pageEffectOptions,currentPageEffect,setPageEffect,unfoldPanel} from './motion.js?v=20261013-1';
-import {controlSlot,mountIcons,setMoreIcon} from './icon-ui.js?v=20261013-1';
+import {COPY} from './content.js?v=20261013-4';
+import {esc} from './format.js?v=20261013-4';
+import {DIRECTIONS} from './identity.mjs?v=20261013-4';
+import {pageEffectOptions,currentPageEffect,setPageEffect,unfoldPanel} from './motion.js?v=20261013-4';
+import {controlSlot,mountIcons,setMoreIcon} from './icon-ui.js?v=20261013-4';
 function effectOptions(){return pageEffectOptions().map(e=>`<button type="button" role="option" tabindex="-1" data-page-effect="${e.value}" aria-selected="false">${esc(e.label)}</button>`).join('');}
 export function menuMarkup(){
  const m=COPY.menu;

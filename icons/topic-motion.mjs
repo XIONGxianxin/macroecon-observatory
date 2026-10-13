@@ -1,4 +1,4 @@
-import {ICON_MODELS} from './icon-models.mjs?v=20261013-1';
+import {ICON_MODELS} from './icon-models.mjs?v=20261013-4';
 
 const NS='http://www.w3.org/2000/svg';
 const controllers=new WeakMap();

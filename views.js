@@ -1,10 +1,10 @@
 /** Record/group templates. Interface text comes exclusively from content.js. */
-import {safeUrl,routeHash,parseRoute,groupRecords} from './domain.mjs?v=20261013-1';
-import {COPY,wording,programName,topicName} from './content.js?v=20261013-1';
-import {abstractPrefix,CARD_CONFIG} from './card-content.mjs?v=20261013-1';
-import {DEFAULT_DIRECTION} from './identity.mjs?v=20261013-1';
-import {esc,dateLabel,external} from './format.js?v=20261013-1';
-export {esc,dateLabel,external} from './format.js?v=20261013-1';
+import {safeUrl,routeHash,parseRoute,groupRecords} from './domain.mjs?v=20261013-4';
+import {COPY,wording,programName,topicName} from './content.js?v=20261013-4';
+import {abstractPrefix,CARD_CONFIG} from './card-content.mjs?v=20261013-4';
+import {DEFAULT_DIRECTION} from './identity.mjs?v=20261013-4';
+import {esc,dateLabel,external} from './format.js?v=20261013-4';
+export {esc,dateLabel,external} from './format.js?v=20261013-4';
 export function tags(r){return `<div class="tags" aria-label="${esc(COPY.filters.topics)}">${(r.tags||[]).map(t=>`<button class="tag" data-topic="${esc(t)}" title="${esc(wording(COPY.filters.filterTopic,{topic:topicName(t)}))}">${esc(topicName(t))}</button>`).join('')}</div>`;}
 export function abstractView(r){
  if(!r.abstract)return '';

@@ -1,8 +1,15 @@
 /** Pure data/query layer. No DOM, hosting provider, or framework dependencies. */
-import {BROAD_TOPICS,matchesTopic} from './broad-topics.mjs?v=20261013-1';
+import {BROAD_TOPICS,matchesTopic} from './broad-topics.mjs?v=20261013-4';
 export const PRIMARY_TOPICS=BROAD_TOPICS.map(t=>t.label);
 export function normalize(s){return String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
+/** Exclusive end of a local-calendar day window, unaffected by DST shifts. */
+export function upcomingWindowEnd(asOf,days=14){
+ const [year,month,day]=asOf.split('-').map(Number);
+ const end=new Date(Date.UTC(year,month-1,day+days));
+ return [end.getUTCFullYear(),String(end.getUTCMonth()+1).padStart(2,'0'),String(end.getUTCDate()).padStart(2,'0')].join('-');
+}
 export function filterRecords(records,state,asOf){
+ const until=state.period==='fortnight'?upcomingWindowEnd(asOf):null;
  return records.filter(r=>{
   if(state.program&&r.program!==state.program)return false;
   if(state.q&&!normalize([r.title,r.speaker,r.name,r.program,...(r.tags||[]),...(r.fields||[])].join(' ')).includes(normalize(state.q)))return false;
@@ -10,6 +17,7 @@ export function filterRecords(records,state,asOf){
   if(r.kind==='candidate'&&state.cohort&&r.cohort!==state.cohort)return false;
   if(state.paperOnly&&!r.paper_url)return false;
   if(r.kind==='seminar'){
+   if(state.period==='fortnight'&&(r.date<asOf||r.date>=until))return false;
    if(state.period==='upcoming'&&r.date<asOf)return false;
    if(state.period==='past'&&r.date>=asOf)return false;
    if(state.from&&r.date<state.from)return false;
@@ -22,13 +30,13 @@ export function parseRoute(hash){
  const [path,query='']=hash.replace(/^#\/?/,'').split('?');const params=new URLSearchParams(query);
  const parts=path.split('/');const view=['seminars','job-market','candidate','seminar'].includes(parts[0])?parts[0]:'seminars';
  return {view,id:['candidate','seminar'].includes(view)?(parts[1]||null):null,q:params.get('q')||'',program:params.get('program')||'',topics:params.getAll('topic'),
-  period:['all','upcoming','past'].includes(params.get('period'))?params.get('period'):(['seminars','seminar'].includes(view)&&!params.get('from')&&!params.get('to')?'upcoming':'all'),from:params.get('from')||'',to:params.get('to')||'',paperOnly:params.get('paper')==='1',cohort:params.get('cohort')||''};
+  period:['all','fortnight','upcoming','past'].includes(params.get('period'))?params.get('period'):(['seminars','seminar'].includes(view)&&!params.get('from')&&!params.get('to')?'fortnight':'all'),from:params.get('from')||'',to:params.get('to')||'',paperOnly:params.get('paper')==='1',cohort:params.get('cohort')||''};
 }
 export function routeHash(state){
  const view=['seminars','job-market','candidate','seminar'].includes(state.view)?state.view:'seminars';
  const p=new URLSearchParams();for(const k of ['q','program','from','to','cohort'])if(state[k]&&!(k==='cohort'&&['seminars','seminar'].includes(view)))p.set(k,state[k]);
  for(const t of state.topics)p.append('topic',t);
- const defaultPeriod=['seminars','seminar'].includes(view)&&!state.from&&!state.to?'upcoming':'all';
+ const defaultPeriod=['seminars','seminar'].includes(view)&&!state.from&&!state.to?'fortnight':'all';
  if(state.period!==defaultPeriod)p.set('period',state.period);if(state.paperOnly)p.set('paper','1');
  return '#/'+view+(['candidate','seminar'].includes(view)&&state.id?'/'+state.id:'')+(p.size?'?'+p:'');
 }

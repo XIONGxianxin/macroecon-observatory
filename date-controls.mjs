@@ -1,6 +1,6 @@
 /** English date entry/calendar, independent of browser and OS date locale. */
-import {COPY,wording} from './content.js?v=20261013-1';
-import {esc} from './format.js?v=20261013-1';
+import {COPY,wording} from './content.js?v=20261013-4';
+import {esc} from './format.js?v=20261013-4';
 const MONTHS=COPY.date.months;
 const DAYS=COPY.date.weekdays;
 const pad=n=>String(n).padStart(2,'0');
